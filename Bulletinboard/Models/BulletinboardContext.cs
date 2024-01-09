@@ -9,7 +9,7 @@ namespace Bulletinboard.Models
         {
         }
 
-        public DbSet<Announcement> Announcement { get; set; }
+        public DbSet<Announcement> Announcements { get; set; }
 
     }
 }
