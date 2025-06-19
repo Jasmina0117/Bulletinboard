@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Work Calculator</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 2em; }
+        label { display: block; margin-top: 1em; }
+        input { margin-top: 0.5em; padding: 0.4em; }
+        button { margin-top: 1em; padding: 0.6em 1em; }
+        #result { margin-top: 1em; font-weight: bold; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Work Duration Calculator</h1>
+    <label>
+        Item price:
+        <input type="number" id="price" step="0.01" required>
+    </label>
+    <label>
+        Hourly wage:
+        <input type="number" id="wage" step="0.01" required>
+    </label>
+    <button id="calc">Calculate</button>
+    <div id="result"></div>
+    <script>
+        document.getElementById('calc').addEventListener('click', async () => {
+            const price = parseFloat(document.getElementById('price').value);
+            const wage = parseFloat(document.getElementById('wage').value);
+            const resultDiv = document.getElementById('result');
+            resultDiv.textContent = '';
+            resultDiv.classList.remove('error');
+
+            if (isNaN(price) || isNaN(wage)) {
+                resultDiv.textContent = 'Please enter valid numbers.';
+                resultDiv.classList.add('error');
+                return;
+            }
+            try {
+                const url = `/api/workcalculator?price=${encodeURIComponent(price)}&hourlyWage=${encodeURIComponent(wage)}`;
+                const res = await fetch(url);
+                if (!res.ok) {
+                    const text = await res.text();
+                    throw new Error(text);
+                }
+                const hours = await res.json();
+                resultDiv.textContent = `You need to work approximately ${hours.toFixed(2)} hours.`;
+            } catch (err) {
+                resultDiv.textContent = err.message || 'Error calculating work hours';
+                resultDiv.classList.add('error');
+            }
+        });
+    </script>
+</body>
+</html>
