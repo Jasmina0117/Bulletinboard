@@ -37,7 +37,7 @@ namespace Bulletinboard.Controllers
         }
 
         [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(int id)
+        public IActionResult Delete(int id)
         {
             var result = _service.DeleteAnnouncement(id);
             return Ok(result);

@@ -8,7 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddDbContext<BulletinboardContext>(options =>
             options.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
 
-//ª`¤J services
+//Âª`Â¤J services
 builder.Services.Scan(scan =>
           scan.FromAssemblyOf<IAnnouncementService>()
           .AddClasses(s => s.Where(c => c.Name.EndsWith("Service", StringComparison.OrdinalIgnoreCase)))
@@ -16,7 +16,7 @@ builder.Services.Scan(scan =>
           .WithScopedLifetime()
        );
 
-//ª`¤J Repository
+//Âª`Â¤J Repository
 builder.Services.Scan(scan =>
    scan.FromAssemblyOf<BulletinboardContext>()
    .AddClasses(s => s.AssignableTo<IAnnouncementRepo>())
